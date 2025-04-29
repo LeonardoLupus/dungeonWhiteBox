@@ -3,9 +3,10 @@ package item
 import "dungeonWhiteBox/src/money"
 
 type Item struct {
-	name        string
-	weight      float32
-	coins       *money.Coins
-	tags        []string
+	Name        string
+	Weight      uint16
+	Value       money.Coins
+	IsBroken    bool
+	Tags        []string
 	Description string
 }

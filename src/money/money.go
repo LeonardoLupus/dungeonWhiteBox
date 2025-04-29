@@ -4,26 +4,26 @@ type Coins struct {
 	count uint64
 }
 
-const goldToSilver = 10
-const silverToCopper = 10
+const GoldToSilver = 10
+const SilverToCopper = 10
 
 func (c *Coins) Get() (uint64, uint64, uint64) {
-	gold := c.count / (goldToSilver * silverToCopper)
-	silver := (c.count - gold*goldToSilver) / silverToCopper
-	copper := (c.count - gold*goldToSilver*silverToCopper - silver*silverToCopper)
+	gold := c.count / (GoldToSilver * SilverToCopper)
+	silver := (c.count - gold*GoldToSilver) / SilverToCopper
+	copper := (c.count - gold*GoldToSilver*SilverToCopper - silver*SilverToCopper)
 	return gold, silver, copper
 }
 
 func (c *Coins) Set(gold, silver, copper uint64) {
-	c.count = gold*goldToSilver*silverToCopper + silver*silverToCopper + copper
+	c.count = gold*GoldToSilver*SilverToCopper + silver*SilverToCopper + copper
 }
 
 func (c *Coins) Add(gold, silver, copper uint64) {
-	c.count += gold*goldToSilver*silverToCopper + silver*silverToCopper + copper
+	c.count += gold*GoldToSilver*SilverToCopper + silver*SilverToCopper + copper
 }
 
 func (c *Coins) Remove(gold, silver, copper uint64) uint64 {
-	sum := (gold*goldToSilver*silverToCopper + silver*silverToCopper + copper)
+	sum := (gold*GoldToSilver*SilverToCopper + silver*SilverToCopper + copper)
 	if sum > c.count {
 		return sum - c.count
 	}
