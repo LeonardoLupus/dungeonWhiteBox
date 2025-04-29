@@ -41,6 +41,10 @@ type DicePool struct {
 }
 
 func (d *DicePool) SetDicePool(count, sides uint32, modifier int32) {
+	if d.count == 0 || d.sides == 0 {
+		errorMessage("Dises without sides or count dises is zero!")
+		return
+	}
 	d.count = count
 	d.sides = sides
 	d.modifier = modifier
@@ -51,10 +55,6 @@ func (d *DicePool) GetDicePool() (uint32, uint32, int32) {
 }
 
 func (d *DicePool) Roll() uint32 {
-	if d.count == 0 || d.sides == 0 {
-		errorMessage("Dises without sides or count dises is zero!")
-		return 0
-	}
 	var res = RollMultiple(d.count, d.sides)
 	if d.modifier < 0 {
 		d.modifier *= -1
