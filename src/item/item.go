@@ -10,8 +10,16 @@ type Item struct {
 	Weight      uint16
 	Value       money.Coins
 	IsBroken    bool
-	Tags        []string
+	Tags        map[string]int32
 	Description string
+}
+
+type BoostItem struct {
+	Base          Item
+	PropertyConst map[string]uint32
+	PropertyDice  map[string]dice.DicePool
+	IsNegative    bool
+	ActionTime    uint8
 }
 
 type Weapon struct {
