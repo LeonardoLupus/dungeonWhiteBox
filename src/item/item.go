@@ -15,7 +15,7 @@ type Item struct {
 }
 
 type BoostItem struct {
-	Base          Item
+	Item
 	PropertyConst map[string]uint32
 	PropertyDice  map[string]dice.DicePool
 	IsNegative    bool
@@ -23,7 +23,7 @@ type BoostItem struct {
 }
 
 type Weapon struct {
-	Base       Item
+	Item
 	Damage     dice.DicePool
 	Range      uint8
 	IsTwoHand  bool
@@ -31,6 +31,6 @@ type Weapon struct {
 }
 
 type Armor struct {
-	Base Item
-	Ac   uint8
+	Item
+	Ac uint8
 }

@@ -50,11 +50,11 @@ func (d *DicePool) SetDicePool(count, sides uint32, modifier int32) {
 	d.modifier = modifier
 }
 
-func (d *DicePool) GetDicePool() (uint32, uint32, int32) {
+func (d DicePool) GetDicePool() (uint32, uint32, int32) {
 	return d.count, d.sides, d.modifier
 }
 
-func (d *DicePool) Roll() uint32 {
+func (d DicePool) Roll() uint32 {
 	var res = RollMultiple(d.count, d.sides)
 	if d.modifier < 0 {
 		d.modifier *= -1
