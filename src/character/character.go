@@ -20,5 +20,5 @@ type character struct {
 	race       RaceId
 	ac         uint32
 	hp         uint32
-	backpack   []item.Item
+	backpack   []item.InventoryItem
 }

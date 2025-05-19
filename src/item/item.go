@@ -5,13 +5,46 @@ import (
 	"dungeonWhiteBox/src/money"
 )
 
+type InventoryItem interface {
+	Name() *string
+	Weight() *uint32
+	Value() *money.Coins
+	IsBroken() *bool
+	Description() *string
+	Tags() *map[string]int32
+}
+
 type Item struct {
-	Name        string
-	Weight      uint16
-	Value       money.Coins
-	IsBroken    bool
-	Tags        map[string]int32
-	Description string
+	name        string
+	weight      uint32
+	value       money.Coins
+	isBroken    bool
+	tags        map[string]int32
+	description string
+}
+
+func (i Item) Name() *string {
+	return &i.name
+}
+
+func (i Item) Weight() *uint32 {
+	return &i.weight
+}
+
+func (i Item) Value() *money.Coins {
+	return &i.value
+}
+
+func (i Item) IsBroken() *bool {
+	return &i.isBroken
+}
+
+func (i Item) Description() *string {
+	return &i.description
+}
+
+func (i Item) Tags() *map[string]int32 {
+	return &i.tags
 }
 
 type BoostItem struct {

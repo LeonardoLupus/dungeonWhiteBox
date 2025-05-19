@@ -1,33 +1,42 @@
 package dice
 
 import (
+	"errors"
 	"fmt"
 	"math/rand/v2"
 )
+
+var ErrInvalidDises = errors.New("invalid number of dice sides")
 
 func errorMessage(message string) {
 	fmt.Printf("\n[Error] %s\n", message)
 }
 
-func Roll(sides uint32) uint32 {
-	if sides == 0 {
-		errorMessage("Dise without sides!")
-		return 0
+func isCorrectCountOrSidesDices(count, sides int32) bool {
+	if sides <= 0 || count <= 0 {
+		errorMessage("Dises without sides or count dises is below zero!")
+		return false
 	}
-	return rand.Uint32N(sides) + 1
+	return true
 }
 
-func RollMultiple(count, sides uint32) uint32 {
-	if sides == 0 || count == 0 {
-		errorMessage("Dises without sides or count dises is zero!")
-		return 0
+func Roll(sides int32) (int32, error) {
+	if !isCorrectCountOrSidesDices(1, sides) {
+		return -1, ErrInvalidDises
+	}
+	return rand.Int32N(sides) + 1, nil
+}
+
+func RollMultiple(count, sides int32) (int32, error) {
+	if !isCorrectCountOrSidesDices(count, sides) {
+		return -1, ErrInvalidDises
 	}
 
-	var sum uint32
+	var sum int32
 	for range count {
-		sum += rand.Uint32N(sides) + 1
+		sum += rand.Int32N(sides) + 1
 	}
-	return sum
+	return sum, nil
 }
 
 func RollBool() bool {
@@ -35,36 +44,32 @@ func RollBool() bool {
 }
 
 type DicePool struct {
-	count    uint32
-	sides    uint32
-	modifier int32
+	Count    int32
+	Sides    int32
+	Modifier int32
 }
 
-func (d *DicePool) SetDicePool(count, sides uint32, modifier int32) {
-	if d.count == 0 || d.sides == 0 {
-		errorMessage("Dises without sides or count dises is zero!")
+func (d *DicePool) SetDicePool(count, sides, modifier int32) {
+	if !isCorrectCountOrSidesDices(count, sides) {
 		return
 	}
-	d.count = count
-	d.sides = sides
-	d.modifier = modifier
+	d.Count = count
+	d.Sides = sides
+	d.Modifier = modifier
 }
 
-func (d DicePool) GetDicePool() (uint32, uint32, int32) {
-	return d.count, d.sides, d.modifier
+func (d DicePool) GetDicePool() (int32, int32, int32) {
+	return d.Count, d.Sides, d.Modifier
 }
 
-func (d DicePool) Roll() uint32 {
-	var res = RollMultiple(d.count, d.sides)
-	if d.modifier < 0 {
-		d.modifier *= -1
-		if uint32(d.modifier) >= res {
-			res = 0
-		} else {
-			res -= uint32(d.modifier)
-		}
-	} else {
-		res += uint32(d.modifier)
+func (d DicePool) Roll() (int32, error) {
+	var res, err = RollMultiple(d.Count, d.Sides)
+	if err != nil {
+		return -1, ErrInvalidDises
 	}
-	return res
+	res += d.Modifier
+	if res < 0 {
+		res = 0
+	}
+	return res, nil
 }
